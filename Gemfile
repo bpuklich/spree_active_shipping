@@ -1,6 +1,15 @@
 source 'https://rubygems.org'
 
+gemspec
+
 gem 'sqlite3'
+
+group :assets do
+  # gem 'sass-rails'
+  gem 'coffee-rails'
+#  gem 'asset_sync'
+#  gem 'yui-compressor'
+end
 
 # TODO: Add to gemspec once gem is released
 gem "spree", github: "spree/spree", branch: '3-0-stable'
@@ -14,4 +23,3 @@ group :development, :test do
   gem 'rspec-activemodel-mocks', '1.0.0'
 end
 
-gemspec
