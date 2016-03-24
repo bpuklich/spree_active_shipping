@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-gemspec
 
 gem 'sqlite3'
 
@@ -23,3 +22,4 @@ group :development, :test do
   gem 'rspec-activemodel-mocks', '1.0.0'
 end
 
+gemspec
