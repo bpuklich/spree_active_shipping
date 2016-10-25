@@ -3,9 +3,9 @@ module Spree
     module Usps
       class Base < Spree::Calculator::Shipping::ActiveShipping::Base
 
-        SERVICE_CODE_PREFIX = {
-          :international => 'intl',
-          :domestic      => 'dom'
+        SERVICE_CODE_PREFIX ||= {
+          international: 'intl',
+          domestic: 'dom'
         }
 
         def compute_package(package)
@@ -30,8 +30,8 @@ module Spree
 
         def carrier
           carrier_details = {
-            :login => Spree::ActiveShipping::Config[:usps_login],
-            :test => Spree::ActiveShipping::Config[:test_mode]
+            login: Spree::ActiveShipping::Config[:usps_login],
+            test: Spree::ActiveShipping::Config[:test_mode]
           }
 
           ::ActiveShipping::USPS.new(carrier_details)
@@ -41,7 +41,7 @@ module Spree
 
         def retrieve_rates(origin, destination, shipment_packages)
           begin
-            response = carrier.find_rates(origin, destination, shipment_packages)
+            response = carrier.find_rates(origin, destination, shipment_packages, rate_options)
             # turn this beastly array into a nice little hash
             service_code_prefix_key = response.params.keys.first == 'IntlRateV2Response' ? :international : :domestic
             rates = response.rates.collect do |rate|
@@ -50,9 +50,9 @@ module Spree
             end
             rate_hash = Hash[*rates.flatten]
             return rate_hash
-          rescue ActiveMerchant::ActiveMerchantError => e
+          rescue ::ActiveShipping::Error => e
 
-            if [::ActiveMerchant::ResponseError, ::ActiveShipping::ResponseError].include?(e.class) && e.response.is_a?(ActiveShipping::Response)
+            if e.class == ::ActiveShipping::ResponseError && e.response.is_a?(::ActiveShipping::Response)
               params = e.response.params
               if params.has_key?("Response") && params["Response"].has_key?("Error") && params["Response"]["Error"].has_key?("ErrorDescription")
                 message = params["Response"]["Error"]["ErrorDescription"]
@@ -77,6 +77,16 @@ module Spree
         # weight limit in ounces or zero (if there is no limit)
         def max_weight_for_country(country)
           1120  # 70 lbs
+        end
+
+        def rate_options
+          if Spree::ActiveShipping::Config[:usps_commercial_plus]
+            { commercial_plus: true }
+          elsif Spree::ActiveShipping::Config[:usps_commercial_base]
+            { commercial_base: true }
+          else
+            {}
+          end
         end
       end
     end

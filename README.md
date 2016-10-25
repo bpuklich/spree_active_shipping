@@ -13,7 +13,7 @@ Installation
 We highly recommend using the stable branches of this gem. If you were using version 1.3, you can place this line inside your application's Gemfile:
 
 ```ruby
-gem 'spree_active_shipping', :git => "git://github.com/spree/spree_active_shipping", :branch => "1-3-stable"
+gem 'spree_active_shipping', git: "git://github.com/spree/spree_active_shipping", branch: "1-3-stable"
 ```
 
 To install the latest edge version of this extension, place this line inside your application's Gemfile:
@@ -21,13 +21,13 @@ To install the latest edge version of this extension, place this line inside you
 - To use the latest edge code in master branch:
 
 ```ruby
-gem 'spree_active_shipping', :git => "git://github.com/spree/spree_active_shipping"
+gem 'spree_active_shipping', git: "git://github.com/spree/spree_active_shipping"
 ```
 
 - To use a specific branch specified in the Versionfile for your version of Spree:
 
 ```ruby
-gem 'spree_active_shipping', :git => "git://github.com/spree/spree_active_shipping", :branch => '1-3-stable'
+gem 'spree_active_shipping', git: "git://github.com/spree/spree_active_shipping", branch: '1-3-stable'
 ```
 
 **2.** Install migrations and migrate database:
@@ -130,10 +130,10 @@ It is important to note that by default this variable is set to have a value of 
 
 ### Example of converting from metric system to oz
 
-Say you have your weights in **kg** you would have to set the multiplier to **0.0283495**
+Say you have your weights in **kg** you would have to set the multiplier to **35.274**
 
 ```ruby
-Spree::ActiveShipping::Config[:unit_multiplier] = 0.0283495
+Spree::ActiveShipping::Config[:unit_multiplier] = 35.274
 ```
 
 Cache
@@ -178,21 +178,6 @@ The money line for **spree_active_shipping** is when it calls the calculator's `
 - when it tries to get rates for the 2nd calculator (**FedEx 2 Day**) it will check the cache first and will find that for this package and stock location it already has rates stored in the cache and it won't call FedEx again, using this same rates
 - when it hits the last calculator (**FedEx International Priority**) it will find that the cache doesn't have any rates for the given key, and the method ```available?``` called from the Estimator will return false thus removing the calculator's shipping method from the list of available calculators and won't return any rates back for it
 - Consequently since this 3rd calculator (**FedEx International Priority**) is an international calculator it would have been removed as well by the line that checks if any shipping method is allowed in already defined Zones.
-
-Installation
-------------
-
-1. Add the following to your application's Gemfile
-
-```ruby
-gem 'spree_active_shipping'
-```
-
-2. Run bundler
-
-```
-bundle install
-```
 
 Testing
 -------
