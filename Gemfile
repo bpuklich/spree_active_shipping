@@ -10,7 +10,7 @@ group :assets do
 end
 
 # TODO: Add to gemspec once gem is released
-gem "spree", github: "spree/spree", branch: '3-1-stable'
+gem "spree", '~> 3.1.0'
 
 gem 'factory_girl_rails', '~> 4.5.0', group: :test
 
