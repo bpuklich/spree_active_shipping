@@ -8,3 +8,5 @@ coverage
 .bundle
 .idea
 .ruby-*
+/.rakeTasks
+*.iml
