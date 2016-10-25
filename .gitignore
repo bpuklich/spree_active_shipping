@@ -1,7 +1,6 @@
 spec/test_app
 spec/dummy
 *.swp
-Gemfile.lock
 .rvmrc
 .DS_Store
 coverage
